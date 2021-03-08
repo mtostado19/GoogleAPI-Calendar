@@ -45,7 +45,7 @@ const event = {
       },
       requestId: '1234'
     }
-  }
+  },
 }
 
 calendar.freebusy.query(

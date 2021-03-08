@@ -16,12 +16,12 @@ oAuth2Client.setCredentials({
 const calendar = google.calendar( {version: 'v3', auth: oAuth2Client} );
 
 async function DeleteEvent(deleteEventId) {
-    const res = await calendar.events.delete({
-        calendarId: 'primary',
-        eventId: deleteEventId
-    });
+  const res = await calendar.events.delete({
+    calendarId: 'primary',
+    eventId: deleteEventId
+  });
     
-    console.log(res.data)
+  console.log(res.data)
 }
 
 const eventid = process.env.DELETEID;
