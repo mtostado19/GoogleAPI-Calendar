@@ -15,20 +15,18 @@ oAuth2Client.setCredentials({
 
 const calendar = google.calendar( {version: 'v3', auth: oAuth2Client} );
 
+// Date
 const eventStartTime = new Date();
 
-eventStartTime.setDate(eventStartTime.getDate() + 2);
+eventStartTime.setDate(eventStartTime.getDate() + 3);
 
 const eventEndTime = new Date();
 
-eventEndTime.setDate(eventEndTime.getDate() + 2);
+eventEndTime.setDate(eventEndTime.getDate() + 3);
 eventEndTime.setMinutes(eventEndTime.getMinutes() + 45);
 
-
+// Event
 const event = {
-  summary: 'Meet Prueba',
-  location: 'Online Meeting',
-  description: 'Reunion online',
   start: {
     dateTime: eventStartTime,
     timeZone: 'America/Merida',
@@ -36,15 +34,6 @@ const event = {
   end: {
     dateTime: eventEndTime,
     timeZone: 'America/Merida'
-  },
-  colorId: 1,
-  conferenceData: {
-    createRequest: {
-      conferenceSolutionKey: {
-        type: 'hangoutsMeet'
-      },
-      requestId: '12345'
-    }
   },
 }
 
@@ -61,17 +50,17 @@ calendar.freebusy.query(
   if(err) return console.error('Free Busy Query error: ', err);
 
   const eventsArr = res.data.calendars.primary.busy;
-
   if (eventsArr.length === 0)
-    return calendar.events.insert(
+    return calendar.events.patch(
       { 
         calendarId: 'primary', 
+        eventId: process.env.PATCHID,
         resource: event,
         conferenceDataVersion: 1,
       }, 
       err => {
-        if (err) return console.error('Calendar Event Creation Error: ', err)
-        return console.log('Calendar Event Created!')
+        if (err) return console.error('Calendar Event Patch Error: ', err)
+        return console.log('Calendar Event Updated!')
       }
     )
     return console.log('Busy Calendar :(');
